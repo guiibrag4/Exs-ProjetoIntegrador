@@ -1,0 +1,8 @@
+Iniciando0
+Processando T-0 item:0
+Processando T-0 item:2
+Processando T-0 item:5
+Processando T-0 item:7
+Processando T-0 item:9
+Morreu T-0
+Executou:5
