@@ -2,6 +2,7 @@ import threading
 import queue
 
 def worker(q, nome):
+    soma = 0
     count = 0
     print(f'{nome} iniciada')
     while True:
@@ -9,8 +10,10 @@ def worker(q, nome):
         if item is None:
             break
         print(f'{nome} processando o item: {item}')
+        soma += item
         q.task_done()
         count += 1
+    print (f'{nome} finalizada. Soma: {soma}')
     print(f'Morreu {nome} e executou {count} itens')
     
 q = queue.Queue()
@@ -23,9 +26,10 @@ for i in range(int(threads)):
     t.start()
 
 # Adicionar itens à fila
-for i in range (11):
-    q.put(i)
-
+with open ('numerosBilhao.txt', 'r') as f:
+    for line in f:
+        q.put(int(line))
+    
 # Esperar até que todos os itens sejam processados
 q.join()
 
@@ -37,16 +41,4 @@ for t in threading.enumerate():
     if t is not threading.main_thread() and t.is_alive():
         t.join()
 
-
-# q: O que faz o método get
-# a: Retorna e remove um item da fila
-
-# q: O que faz o método task_done
-# a: Indica que um item foi processado
-
-# q: O que faz o método Queue
-# a: Cria uma fila
-
-# q: O que faz o método put
-# a: Adiciona um item à fila
-
+# measure-command { python produtor_consumidor_version2.py | Out-Default }
